@@ -1,0 +1,26 @@
+base:
+    image_size: 128
+    in_channels: 3
+    dim_mults: [1, 2, 4, 8]
+    timesteps: 1000
+    schedule_name: "linear_beta_schedule"
+    beta_start: 0.001
+    beta_end: 0.02
+    device: "cpu"
+train:
+    pre_trained_model: null
+    data_path: ""
+    batch_size: 16
+    lr: 1e-4
+    start_epoch: 1
+    epoches: 50
+    ckpts_path: './ckpts'
+    num_workers: 2
+    IFEarlyStopping: False
+    IFadjust_learning_rate: True
+    lr_adjust_type: 'type2'
+    patience: 7
+    loss_type: "huber"
+inference:
+    batch_size: 1
+    best_model: './ckpts/imageSize128_channels3_dimMults[1, 2, 4, 8]_timeSteps1000_scheduleNamelinear_beta_schedule/BestModel.pth'
