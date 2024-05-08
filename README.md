@@ -44,5 +44,8 @@ steps = 50
 
 ![alt text](imgs/result_ddim.jpg)
 
-## Model Structure (s sample)
+## To Do
+
+- add PNDMs scheduler
+- add Eulers scheduler
 
