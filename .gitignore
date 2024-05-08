@@ -161,3 +161,4 @@ cython_debug/
 
 *.pyc
 *.pth
+structure.md
