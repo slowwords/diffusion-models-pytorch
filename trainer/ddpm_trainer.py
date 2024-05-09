@@ -26,7 +26,7 @@ class DDPM_Trainer(TrainerBase):
         if "timesteps" in kwargs.keys():
             self.timesteps = kwargs["timesteps"]
         else:
-            raise ValueError("扩散模型训练必须提供扩散步数参数")
+            raise ValueError("To train DDPM model, timesteps is necessary!")
         
     def forward(self, model, *args, **kwargs):
 
@@ -46,11 +46,11 @@ class DDPM_Trainer(TrainerBase):
                 loss.backward()
                 self.optimizer.step()
 
-                # 更新信息
+                # update information
                 loop.set_description(f'Epoch [{i}/{self.epoches}]')
                 loop.set_postfix(loss=loss.item())
 
-            # 每个epoch保存一次模型
+            # save checkpoint every epoch
             if "model_save_path" in kwargs.keys():
                 self.save_best_model(model=model, path=kwargs["model_save_path"])
 

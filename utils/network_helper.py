@@ -10,9 +10,7 @@ from tqdm.auto import tqdm
 
 def exists(x: any) -> bool:
     """
-    判断数值是否为空
-    :param x: 输入数据
-    :return: 如果不为空则True 反之则返回False
+    Determine whether x is None
     """
     return x is not None
 

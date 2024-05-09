@@ -8,7 +8,7 @@ from utils import *
 class WeightStandardizedConv2d(nn.Conv2d):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # 定义epsilon
+        # define epsilon
         eps = 1e-5 if x.dtype == torch.float32 else 1e-3
 
         weight = self.weight
@@ -157,7 +157,7 @@ class Unet(nn.Module):
     ) -> None:
         super().__init__()
 
-        # 决定维度
+        # define channels
         self.channels = channels
         self.self_condition = self_condition
         input_channels = channels * (2 if self_condition else 1)
@@ -167,7 +167,7 @@ class Unet(nn.Module):
             init_dim,
             1,
             padding=0
-        )   # 从7,3变为1和0
+        )   # from 7, 3 to 1, 0
         dims = [init_dim, *map(lambda m: dim_in * m, dim_mults)]
         in_out = list(zip(dims[:-1], dims[1:]))
 

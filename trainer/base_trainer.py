@@ -54,34 +54,34 @@ class TrainerBase(nn.Module):
         self.start_epoch = start_epoch
         self.epoches = epoches
         if self.epoches is None:
-            raise ValueError("请传入训练总迭代次数")
+            raise ValueError("Please provide total epoches!")
 
         self.train_loader = train_loader
         if self.train_loader is None:
-            raise ValueError("请传入train_loader")
+            raise ValueError("Please provide train_loader!")
 
         self.optimizer = optimizer
         if self.optimizer is None:
-            raise ValueError("请传入优化器类")
+            raise ValueError("Please provide optimizer!")
 
         self.device = device
         if self.device is None:
-            raise ValueError("请传入运行设备类型")
+            raise ValueError("Please provide device!")
 
-        # 如果启用了提前停止策略则必须进行下面一系列判断
+        # Judge by factor as follow if earlystopping was used.
         self.IFEarlyStopping = IFEarlyStopping
         if IFEarlyStopping:
             if "patience" in kwargs.keys():
                 self.early_stopping = EarlyStopping(patience=kwargs["patience"], verbose=True)
             else:
-                raise ValueError("启用提前停止策略必须输入{patience=int X}参数")
+                raise ValueError("Parameter {patience=intX} must be provide if early stopping was used!")
 
             if "val_loader" in kwargs.keys():
                 self.val_loader = kwargs["val_loader"]
             else:
-                raise ValueError("启用提前停止策略必须输入验证集val_loader")
+                raise ValueError("Val_loader must be provide if early stopping was used!")
 
-        # 如果启用了学习率调整策略则必须进行下面一系列判断
+        # Judge by factor as follow if adjust lr was used.
         self.IFadjust_learning_rate = IFadjust_learning_rate
         if IFadjust_learning_rate:
             if "types" in kwargs.keys():
@@ -91,7 +91,7 @@ class TrainerBase(nn.Module):
                 else:
                     self.lr_adjust = None
             else:
-                raise ValueError("启用学习率调整策略必须从{type1 or type2}中选择学习率调整策略参数types")
+                raise ValueError("Learning rate adjustment policy parameter types must be choiced from 'type1' or 'type2'")
 
     def adjust_learning_rate(self, epoch, learning_rate):
         # lr = args.learning_rate * (0.2 ** (epoch // 2))
@@ -106,7 +106,7 @@ class TrainerBase(nn.Module):
                     30: 1e-6, 35: 5e-7, 40: 1e-8
                 }
         else:
-            raise ValueError("请从{{0}or{1}}中选择学习率调整策略参数types".format("type1", "type2"))
+            raise ValueError("Please provide learning rate adjustment policy parameter types from [type1, type2]")
 
         if epoch in lr_adjust.keys():
             lr = lr_adjust[epoch]
@@ -117,7 +117,7 @@ class TrainerBase(nn.Module):
     @staticmethod
     def save_best_model(model, path):
         torch.save(model.state_dict(), path+'/'+'BestModel.pth')
-        print("成功将此次训练模型存储(储存格式为.pth)至:" + str(path))
+        print(f"The checkpoint has been saved to {str(path)} with type '.pth' successful!")
 
     def forward(self, model, *args, **kwargs):
 
